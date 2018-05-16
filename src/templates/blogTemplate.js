@@ -6,6 +6,7 @@ export default function Template({
 }) {
     const { markdownRemark } = data; // data.markdownRemark holds our post data
     const { frontmatter, html } = markdownRemark;
+    console.log('data:', data, this.props);
     return (
         <div className="blog-post-container">
             <div className="blog-post">
@@ -29,6 +30,7 @@ export const pageQuery = graphql`
         date(formatString: "MMMM DD, YYYY")
         path
         title
+        tags
       }
     }
   }

@@ -2,6 +2,7 @@
 path: "/blog/angular-tutorials"
 date: "2017-11-08"
 title: "Angular Tutorials"
+tags: ["animals", "Chicago", "zoos"]
 ---
 
 ## Angular Tutorials

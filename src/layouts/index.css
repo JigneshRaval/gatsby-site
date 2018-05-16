@@ -228,9 +228,7 @@ h1 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  font-weight: bold;
+   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 2.25rem;
   line-height: 1.1;
@@ -245,8 +243,6 @@ h2 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1.62671rem;
@@ -262,8 +258,6 @@ h3 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1.38316rem;
@@ -279,8 +273,6 @@ h4 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1rem;
@@ -296,8 +288,6 @@ h5 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 0.85028rem;
@@ -313,8 +303,6 @@ h6 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 0.78405rem;
@@ -621,4 +609,177 @@ pre tt:after {
   html {
     font-size: 100%;
   }
+}
+
+body {
+  height: 100%;
+}
+#___gatsby, .container {
+  min-height: 100vh;
+}
+.container-side {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  width: 41.65%;
+  max-width: 800px;
+  height: 100vh;
+  justify-content: flex-start;
+}
+.container-main {
+  float: right;
+  width: calc(100% - 41.65%);
+  height: 100vh;
+}
+.header {
+  background: #4fac14;
+}
+.header {
+  z-index: 400;
+  display: flex;
+  -webkit-box-orient: vertical;
+  flex-direction: column;
+  width: 100px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.postlist {
+  overflow: hidden;
+  width: 100%;
+  max-width: 700px;
+  background: #fff;
+}
+.postlist-title {
+  position: relative;
+  z-index: 100;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  width: 100%;
+  max-width: 100%;
+  height: 95px;
+  background: #fafafc;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.postlist-container {
+  height: calc(100vh - 95px);
+  margin-top: -1px;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+}
+.postlist-title-current {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
+  padding: 34px;
+  cursor: pointer;
+  letter-spacing: .2px;
+  color: #0c0c0c;
+  will-change: transform;
+}
+.postlist-title-search {
+  position: absolute;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  width: 100%;
+  -webkit-transform: translate3d(100%,0,0) translate3d(-87px,0,0);
+  transform: translate3d(100%,0,0) translate3d(-87px,0,0);
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  will-change: transform;
+}
+.postlist-back {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: normal;
+  position: relative;
+  z-index: 100;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  width: 100%;
+  max-width: 100%;
+  height: 85px;
+  color: #3b3b40;
+  border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  background: #fafafc;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+.postlist-filter {
+  position: relative;
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height: 0;
+  padding: 0 34px;
+  transition: max-height .5s ease-out;
+  transition-timing-function: cubic-bezier(.23,1,.32,1);
+  background: #19191c;
+  -webkit-overflow-scrolling: touch;
+  will-change: max-height;
+}
+.postlist-filter__active {
+  max-height: calc(100vh - 94px);
+  transition: max-height .65s ease-in;
+}
+.postlist-filter-close {
+  font-size: 24px;
+  position: absolute;
+  top: 16px;
+  right: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: color .2s ease-out;
+  color: #525258;
+}
+.postlist-filter-container {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.postlist-filter-item {
+  display: inline-block;
+  margin: 0 15px 20px 0;
+}
+.postlist-filter-item-anchor, .postlist-filter-title {
+  letter-spacing: .2px;
+  color: #fff;
+  font-family: Poppins,Arial,Sans-Serif;
+}
+.postlist-filter-item-anchor {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  display: block;
+  padding: 16px 22px;
+  border: 1px solid #2a2b31;
+  border-radius: 2px;
+  background: 0 0;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }

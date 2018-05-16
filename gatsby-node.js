@@ -43,6 +43,8 @@ const path = require("path");
     });
 }; */
 
+const mydata = 'Jignesh';
+
 // Implement the Gatsby API “createPages”. This is called once the
 // data layer is bootstrapped to let plugins create pages from data.
 exports.createPages = ({ boundActionCreators, graphql }) => {
@@ -60,6 +62,7 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
                 node {
                   frontmatter {
                     path
+                    tags
                   }
                 }
               }
@@ -70,9 +73,10 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
         if (result.errors) {
           reject(result.errors);
         }
-
+console.log('result.data.allMarkdownRemark.edges :', result.data.allMarkdownRemark.edges)
         // Create pages for each markdown file.
         result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+          console.log('Node :', node);
           const path = node.frontmatter.path;
           createPage({
             path,
@@ -82,7 +86,9 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
             // In your blog post template's graphql query, you can use path
             // as a GraphQL variable to query for data from the markdown file.
             context: {
-
+              tags: node.tags,
+              name: 'Jignesh',
+              age: 38
             },
           });
         });
