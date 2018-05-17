@@ -30,6 +30,10 @@ module.exports = class HTML extends React.Component {
 						content="width=device-width, initial-scale=1, shrink-to-fit=no"
 					/>
 					<link href="https://fonts.googleapis.com/css?family=Poppins:100,300,400,500,600,700,800" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+					<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=latin-ext" rel="stylesheet" />
+					<link href="https://unpkg.com/ionicons@4.1.1/dist/css/ionicons.min.css" rel="stylesheet" />
 					{this.props.headComponents}
 					{css}
 				</head>

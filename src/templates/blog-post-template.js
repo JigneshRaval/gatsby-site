@@ -8,6 +8,16 @@ export default function Template({
     const { markdownRemark } = data; // data.markdownRemark holds our post data
     const { frontmatter, html } = markdownRemark;
 
+    const expandPost= (event) => {
+        let postConstainer = document.querySelector('.container');
+        if (postConstainer.classList.contains('full-screen')) {
+            postConstainer.classList.remove('full-screen');
+        } else {
+            postConstainer.classList.add('full-screen');
+        }
+
+}
+
     return (
         <div className="blog-post-container">
 
@@ -16,21 +26,12 @@ export default function Template({
 
 
                 <div className="cover">
-                    <div className="cover-gradient"></div>
-                    <div className="cover-mouse"><span></span></div>
+                    <div className="post-expand" onClick={expandPost}><i className="icon ion-md-menu" ></i> Expand</div>
                     <div className="cover-content">
                         <div className="cover-category"><a className="ajax-postlist" href="https://nodewebapps.com/category/frameworks/"><span data-category-color="#F3C610"></span>Frameworks</a></div>
                         <h1 className="cover-title" itemprop="headline">{frontmatter.title}</h1>
                         <TagList tags={frontmatter.tags} />
-                        <hr className="cover-divider" />
-                        <a href="https://nodewebapps.com/author/tilomitragmail-com/" className="cover-author ajax-postlist">
-                            <div className="cover-author-thumbnail">
 
-                            </div>
-                            <div className="cover-author-info">
-                                <div className="cover-author-info-name" itemprop="name">Tilo Mitra</div>
-                            </div>
-                        </a>
                     </div>
                 </div>
 
@@ -129,6 +130,7 @@ export const pageQuery = graphql`
         markdownRemark(frontmatter: { path: { eq: $path } }) {
             html
             frontmatter {
+                excerpt
                 date(formatString: "MMMM DD, YYYY")
                 path
                 title

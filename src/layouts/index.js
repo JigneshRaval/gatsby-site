@@ -6,6 +6,7 @@ import Header from '../components/header'
 import PostList from '../components/postlist'
 
 import './index.css'
+import './main.css'
 
 const Layout = ({ children, data }) => {
 	console.log('Layout ::', data);
@@ -19,9 +20,7 @@ const Layout = ({ children, data }) => {
 			</div>
 
 			<div className="container-main">
-				<div>
-					{children()}
-				</div>
+				{children()}
 			</div>
 		</div>
 	)

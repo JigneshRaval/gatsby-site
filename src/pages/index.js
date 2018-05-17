@@ -15,8 +15,8 @@ const IndexPage = ({ data }) => (
 		<h1>Index page</h1>
 		<a href="https://www.gatsbyjs.org/docs/querying-with-graphql/#fragments">Querying Data with GraphQL</a>
 		<h4>{data.allMarkdownRemark.totalCount} Posts</h4>
-		{data.allMarkdownRemark.edges.map(({ node }) => (
-			<div key={node.id}>
+		{data.allMarkdownRemark.edges.map(({ node }, index) => (
+			<div key={index}>
 				<IndexPost frontmatter={node.frontmatter} />
 			</div>
 		))}

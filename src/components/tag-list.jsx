@@ -2,7 +2,7 @@ import React from 'react';
 
 export const TagList = ({ tags }) => {
     return (
-        <ul>
+        <ul className="post-tags">
             {
                 tags
                     .filter((value, index, self) => self.indexOf(value) === index)

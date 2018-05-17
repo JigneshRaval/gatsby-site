@@ -49,7 +49,7 @@ const getUniqueTags = (edges) => {
 	const set = new Set();
 
 	edges.forEach((edge) => {
-		console.log('getUniqueTags ::', edge, edge.node,edge.node.frontmatter.tags)
+		console.log('getUniqueTags ::', edge, edge.node, edge.node.frontmatter.tags)
 		edge.node.frontmatter.tags.forEach(tag => set.add(tag))
 	});
 
@@ -107,7 +107,6 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
 
 				// Create pages for each markdown file.
 				result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-					console.log('Node :', node);
 					const path = node.frontmatter.path;
 					createPage({
 						path,
