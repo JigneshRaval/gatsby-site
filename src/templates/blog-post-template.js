@@ -8,7 +8,8 @@ export default function Template({
     const { markdownRemark } = data; // data.markdownRemark holds our post data
     const { frontmatter, html } = markdownRemark;
 
-    const expandPost= (event) => {
+    const expandPost = (event) => {
+        console.log('Template :', data);
         let postConstainer = document.querySelector('.container');
         if (postConstainer.classList.contains('full-screen')) {
             postConstainer.classList.remove('full-screen');
@@ -16,111 +17,87 @@ export default function Template({
             postConstainer.classList.add('full-screen');
         }
 
-}
+    }
 
     return (
         <div className="blog-post-container">
 
+            <article className="post">
 
-            <article className="post post-type">
 
-
-                <div className="cover">
-                    <div className="post-expand" onClick={expandPost}><i className="icon ion-md-menu" ></i> Expand</div>
-                    <div className="cover-content">
-                        <div className="cover-category"><a className="ajax-postlist" href="https://nodewebapps.com/category/frameworks/"><span data-category-color="#F3C610"></span>Frameworks</a></div>
-                        <h1 className="cover-title" itemprop="headline">{frontmatter.title}</h1>
-                        <TagList tags={frontmatter.tags} />
-
-                    </div>
-                </div>
-
-                <div className="post-main">
-                    <Link to="/">Home</Link>
-
-                    <div className="guide">
-                        <div className="guide-inner">
-                            <div className="guide-title"><span ></span> {frontmatter.title}</div>
-                            <div className="guide-meta">Posted <span className="guide-meta-date"><a href="https://nodewebapps.com/2017/06/27/javascript-testing-code-coverage/" className="ajax-main"><time datetime="2017-06-27" itemprop="datePublished">on {frontmatter.date}</time></a></span><span className="guide-meta-author"> by<a href="https://nodewebapps.com/author/tilomitragmail-com/" className="ajax-postlist"> Tilo Mitra</a></span></div>
+                <header className="post-header">
+                    <div className="post-cover" style={{ backgroundImage: 'url(' + frontmatter.coverImage + ')' }}>
+                        <div className="post-cover--toggle-fullscreen" onClick={expandPost}>
+                            <i className="icon ion-md-menu"></i> <span className="visuallyhidden">Read in fullscreen mode.</span>
+                        </div>
+                        <div className="post-cover--content">
+                            <div className="post-cover--category">
+                                <a href="/"><span className="category-badge" data-category-color={frontmatter.categoryColor} style={{ backgroundColor: frontmatter.categoryColor }}></span> {frontmatter.category}</a>
+                            </div>
+                            <h1 className="post-cover--title">{frontmatter.title}</h1>
+                            <p className="post-cover--excerpt">
+                                {frontmatter.excerpt}
+                            </p>
+                            <TagList tags={frontmatter.tags} />
                         </div>
                     </div>
+
+                    <div className="post-guide">
+                        <div className="post-guide--title"><span ></span> {frontmatter.title}</div>
+                        <div className="post-guide--meta">Posted on
+                        <span className="guide-meta-date">
+                                <a href="https://nodewebapps.com/2017/06/27/javascript-testing-code-coverage/">
+                                    <time dateTime="2017-06-27">{frontmatter.date}</time></a>
+                            </span>
+                            <span className="guide-meta-author"> by<a href="https://nodewebapps.com/author/tilomitragmail-com/" className="ajax-postlist"> John Doe</a></span>
+                        </div>
+                    </div>
+                </header>
+
+                <section className="post-content--main">
 
                     <div className="post-inner">
                         <div
                             className="blog-post-content"
                             dangerouslySetInnerHTML={{ __html: html }}
                         />
-
-
                     </div>
-
-
-
-                    <div className="post-footer">
-                        <a href="https://nodewebapps.com/author/tilomitragmail-com/" className="post-footer-author ajax-postlist">
-                            <div className="post-footer-author-thumbnail">
-                                <div className="post-footer-author-thumbnail-image" ></div>
-                            </div>
-                            <div className="post-footer-author-info">
-                                <div className="post-footer-author-info-name">Tilo Mitra</div>
-                            </div>
-                        </a>
-                        <ul className="post-footer-tags">
-                            <li className="post-footer-tags-item"><a href="https://nodewebapps.com/tag/chrome/" rel="tag">chrome</a></li><li className="post-footer-tags-item"><a href="https://nodewebapps.com/tag/javascript/" rel="tag">javascript</a></li><li className="post-footer-tags-item"><a href="https://nodewebapps.com/tag/jest/" rel="tag">jest</a></li><li className="post-footer-tags-item"><a href="https://nodewebapps.com/tag/testing/" rel="tag">testing</a></li>        </ul>
-
-
-                    </div>
-
 
                     <div className="comments">
 
                     </div>
 
+                </section>
 
-                </div>
+                <footer className="post-footer">
+                    <Link to="/">Back to Home</Link>
+                    <TagList tags={frontmatter.tags} />
+
+                    <div className="post-related">
+                        <h3 className="post-related-title">Related Articles</h3>
+                        <div className="post-related-container">
 
 
-                <div className="post-related">
-                    <h3 className="post-related-title">Related Articles</h3>
-                    <div className="post-related-container">
-
-
-                        <div className="post-related-item">
-                            <div className="post-related-item-thumbnail">
-                                <a href="https://nodewebapps.com/2017/11/24/html-page-lifecycle-events/" className="post-related-item-image ajax-main" ></a>
+                            <div className="post-related-item">
+                                <div className="post-related-item-thumbnail">
+                                    <a href="https://nodewebapps.com/2017/11/24/html-page-lifecycle-events/" className="post-related-item-image ajax-main" ></a>
+                                </div>
                             </div>
-                        </div>
 
 
-                        <div className="post-related-item">
-                            <div className="post-related-item-thumbnail">
-                                <a href="https://nodewebapps.com/2017/01/03/13-security-best-practices-for-your-web-application/" className="post-related-item-image ajax-main" ></a>
+                            <div className="post-related-item">
+                                <div className="post-related-item-thumbnail">
+                                    <a href="https://nodewebapps.com/2017/01/03/13-security-best-practices-for-your-web-application/" className="post-related-item-image ajax-main" ></a>
+                                </div>
                             </div>
+
+
                         </div>
-
-
                     </div>
-                </div>
-
-
-
+                </footer>
 
             </article>
 
-
-
-            {/* <div className="blog-post">
-                <h1>{frontmatter.title}</h1>
-                <h2>{frontmatter.date}</h2>
-
-                <TagList tags={frontmatter.tags} />
-
-                <div
-                    className="blog-post-content"
-                    dangerouslySetInnerHTML={{ __html: html }}
-                />
-            </div>
-            <Link to="/">Home</Link> */}
         </div>
     );
 }
@@ -135,6 +112,9 @@ export const pageQuery = graphql`
                 path
                 title
                 tags
+                category
+                categoryColor
+                coverImage
             }
         }
     }

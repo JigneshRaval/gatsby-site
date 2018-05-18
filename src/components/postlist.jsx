@@ -2,54 +2,82 @@ import React from 'react'
 import Link from 'gatsby-link';
 import { SearchPost } from './Search-Post';
 
-export default function PostList({ data }) {
+export default class PostList extends React.Component {
+    constructor(props) {
+        super(props);
 
-    const initialData = data;
-    console.log('PostList :', data);
+        console.log('PostList :', props.data);
 
-    const handleFilterUpdate = (filterValue) => {
-
-        data = {
-            data: filterValue
+        this.state = {
+            data: props.data,
+            initialData: props.data,
+            isPostLinkActive: false
         }
-        console.log('filterValue ::', filterValue, data);
+
+        this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
+        this.hideSearch = this.hideSearch.bind(this);
+        this.showSearch = this.showSearch.bind(this);
+        this.makePostActive = this.makePostActive.bind(this);
     }
-    const showSearch = (event) => {
+
+    handleFilterUpdate = (filterValue) => {
+        console.log('filterValue ::', filterValue);
+        this.setState({ data: filterValue });
+    }
+
+    showSearch = (event) => {
         document.querySelector('.postlist-header').classList.add('isSearchActive');
     }
-    const hideSearch = (event) => {
+
+    hideSearch = (event) => {
         document.querySelector('.postlist-header').classList.remove('isSearchActive');
     }
 
-    return (
-        <div className="postlist">
+    makePostActive(event) {
+        var postListNodes = document.querySelectorAll('.postlist-post');
 
-            <header className="postlist-header">
-                <h2 className="postlist-header--title">Articles <i className="icon ion-md-search" onClick={showSearch}></i></h2>
-                <div className="postlist-header--search">
-                    <SearchPost data={data} initialData={initialData} updateFilter={handleFilterUpdate} />
-                    <i className="icon ion-md-close" onClick={hideSearch}></i>
+        [].forEach.call(postListNodes, (node) => {
+            node.classList.remove('postlist-post__active')
+        })
+
+        event.currentTarget.parentElement.classList.add('postlist-post__active');
+        this.setState({ isPostLinkActive: true })
+    }
+
+    render() {
+        return (
+            <div className="postlist">
+
+                <header className="postlist-header">
+                    <h2 className="postlist-header--title">Articles</h2>
+                    <div className="postlist-header--search">
+                        <i className="icon icon-search" onClick={this.showSearch}></i>
+                        <SearchPost data={this.state.data} initialData={this.state.initialData} updateFilter={this.handleFilterUpdate} />
+                        <i className="icon icon-x-square" onClick={this.hideSearch}></i>
+                    </div>
+                    <a href="/" className="postlist-back"><span><i className="icon icon-home"></i> Back to Latest Articles</span></a>
+                </header>
+
+
+                <div className="postlist-container">
+
+                    {this.state.data.allMarkdownRemark.edges.map(({ node }, index) => (
+                        <article key={index} className="postlist-post" data-post-id="82">
+                            <Link to={node.frontmatter.path} className="postlist-post-inner" onClick={this.makePostActive}>
+                                <div className="postlist-category">
+                                    <span className="category-badge" style={{ backgroundColor: node.frontmatter.categoryColor }} data-category-color={node.frontmatter.categoryColor}></span> {node.frontmatter.category}
+                                </div>
+                                <h3 className="postlist-title">{node.frontmatter.title}</h3>
+                                <p className="postlist-excerpt" >{node.excerpt}</p>
+                            </Link>
+                        </article>
+                    ))}
+
                 </div>
-                <a href="/" className="postlist-back"><span>Back to Latest Articles</span></a>
-            </header>
-
-
-            <div className="postlist-container">
-
-                {data.allMarkdownRemark.edges.map(({ node }, index) => (
-                    <article key={index} className="postlist-post postlist-post__active" data-post-id="82">
-                        <Link to={node.frontmatter.path} className="postlist-post-inner">
-                            <div className="postlist-category"><span data-category-color="#39A155"></span>Generators</div>
-                            <h3 className="postlist-title">{node.frontmatter.title}</h3>
-                            <p className="postlist-excerpt" >{node.excerpt}</p>
-                        </Link>
-                    </article>
-                ))}
 
             </div>
-
-        </div>
-    );
+        );
+    }
 }
 /*
 export const markdownFrontmatterFragment = graphql`

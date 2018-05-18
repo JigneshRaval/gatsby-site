@@ -4,6 +4,8 @@ date: "2017-11-07"
 title: "My first blog post"
 tags: ["animals", "Chicago", "zoos", "animals", "Chicago", "zoos"]
 excerpt: "Hi, This is my first blog post"
+categoryColor: '#FF0000'
+category: 'JavaScript'
 ---
 
 ## First MD file

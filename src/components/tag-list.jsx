@@ -7,7 +7,7 @@ export const TagList = ({ tags }) => {
                 tags
                     .filter((value, index, self) => self.indexOf(value) === index)
                     .map((tag, i) => {
-                        return <li key={i}>{tag}</li>
+                        return <li className="post-tags--item" key={i}>{tag}</li>
                     })
             }
         </ul>

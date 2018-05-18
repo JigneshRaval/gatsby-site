@@ -49,11 +49,11 @@ const getUniqueTags = (edges) => {
 	const set = new Set();
 
 	edges.forEach((edge) => {
-		console.log('getUniqueTags ::', edge, edge.node, edge.node.frontmatter.tags)
+		// console.log('getUniqueTags ::', edge, edge.node, edge.node.frontmatter.tags)
 		edge.node.frontmatter.tags.forEach(tag => set.add(tag))
 	});
 
-	console.log('SET :', ...set);
+	// console.log('SET :', ...set);
 	return [...set];
 
 	/* // METHOD 2
@@ -94,12 +94,14 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
 								frontmatter {
 									path
 									tags
+									category
+									categoryColor
 								}
 							}
 						}
 					}
 				}
-        `
+        		`
 			).then(result => {
 				if (result.errors) {
 					reject(result.errors);
@@ -116,7 +118,11 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
 						// In your blog post template's graphql query, you can use path
 						// as a GraphQL variable to query for data from the markdown file.
 						context: {
-							tags: getUniqueTags(result.data.allMarkdownRemark.edges)
+							tags: getUniqueTags(result.data.allMarkdownRemark.edges),
+							excerpt: node.frontmatter.excerpt,
+							category: node.frontmatter.category,
+							categoryColor: node.frontmatter.categoryColor,
+							coverImage: node.frontmatter.coverImage
 						},
 					});
 				});

@@ -2,13 +2,29 @@
 #___gatsby, .container {
     min-height: 100vh;
 }
+a {
+    background-color: transparent;
+    text-decoration: none;
+    color: #58585e;
+}
+
+.category-badge {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin: 0 13px 0 0;
+    vertical-align: 1px;
+    border-radius: 28px;
+    background: #95989c;
+}
+
+/* = CONTAINERS
+===================================================*/
 .container.full-screen .container-side {
     transform: translateX(-100%);
-    transition: transform 2s;
 }
 .container.full-screen .container-main {
     width: 100%;
-    transition: width 2s;
 }
 .container-side {
     position: fixed;
@@ -20,8 +36,20 @@
     max-width: 800px;
     height: 100vh;
     justify-content: flex-start;
+    transition: transform 0.5s ease-in-out;
+}
+.container-main {
+    float: right;
+    width: calc(100% - 35%);
+    height: 100vh;
+    transition: width 0.5s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
+
+/* = POSTLIST
+===================================================*/
 .postlist {
     overflow: hidden;
     width: 100%;
@@ -30,26 +58,8 @@
 }
 
 
-.postlist-post {
-    border-bottom: 1px solid #f1f1f1;
-}
-.postlist-post-inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 1.5em;
-}
-a {
-background-color: transparent;
-text-decoration: none;
-color: #58585e;
-}
-.postlist-container {
-height: calc(100vh - 95px);
-margin-top: -1px;
--webkit-overflow-scrolling: touch;
--ms-overflow-style: none;
-}
+/* = POSTLIST : HEADER
+===================================================*/
 .postlist-header {
     position: relative;
 }
@@ -59,45 +69,64 @@ margin-top: -1px;
     line-height: normal;
     margin: 0;
     padding: 1em;
-    cursor: pointer;
     letter-spacing: .2px;
     color: #0c0c0c;
     will-change: transform;
+    opacity: 1;
 }
 .postlist-header--title i {
     float: right;
 }
+.postlist-header.isSearchActive {
+    background-color: #3498db;
+}
+.postlist-header.isSearchActive h2 {
+    opacity: 0;
+}
 .postlist-header.isSearchActive .postlist-header--search{
     transform: translate3d(0,0,0);
-    transition: transform 2s
+    transition: transform 0.5s;
+}
+.postlist-header.isSearchActive .postlist-header--search .icon-search {
+    color: #FFF;
+}
+.postlist-header.isSearchActive .postlist-header--search input {
+    opacity: 1;
 }
 .postlist-header--search {
+    overflow: hidden;
     position: absolute;
     top: 0;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     width: 100%;
-    transform: translate3d(100%,0,0);
+    transform: translate3d(100%,0,0) translate3d(-87px,0,0);
     align-items: center;
     justify-content: space-between;
     will-change: transform;
-    background-color: #34495e;
+    transition: transform 0.5s ease;
     padding: 1em;
 }
-.postlist-header--search i {
-    position :absolute;
-    z-index: 2;
-    right: 0
+.postlist-header--search .icon-search {
+    color: #000000;
+    font-size: 32px;
+    cursor: pointer;
+}
+.postlist-header--search .icon-x-square {
+    color: #FFF;
+    font-size: 32px;
 }
 .postlist-header--search input {
+    opacity: 0;
     border: 1px solid #FFF;
-    padding: 5px;
-    width: 100%;
+    padding: 8px;
+    width: 85%;
 }
 .postlist-back {
     display: block;
-    padding: 1em;
-    font-size: 15px;
+    padding: 1em 1.5em;
+    font-size: 16px;
     font-weight: 500;
     line-height: normal;
     color: #3b3b40;
@@ -105,36 +134,71 @@ margin-top: -1px;
     border-bottom: 1px solid #f1f1f1;
     background: #fafafc;
 }
-.postlist-filter {
-position: relative;
-overflow: hidden;
-overflow-y: scroll;
-max-height: 0;
-padding: 0 34px;
-transition: max-height .5s ease-out;
-transition-timing-function: cubic-bezier(.23,1,.32,1);
-background: #19191c;
--webkit-overflow-scrolling: touch;
-will-change: max-height;
+.postlist-back i.icon {
+    font-size: 24px;
+    margin-right: 1em;
 }
-.postlist-filter__active {
-max-height: calc(100vh - 94px);
-transition: max-height .65s ease-in;
+.postlist-back:hover i.icon {
+    color: #27ae60;
 }
-.postlist-filter-close {
-font-size: 24px;
-position: absolute;
-top: 16px;
-right: 10px;
-padding: 20px;
-cursor: pointer;
-transition: color .2s ease-out;
-color: #525258;
+/* = POSTLIST : POST
+===================================================*/
+.postlist-container {
+    height: calc(100vh - 95px);
+    margin-top: -1px;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
-.postlist-filter-container {
-margin: 0;
-padding: 0;
-list-style: none;
+.postlist-post {
+    border-bottom: 1px solid #f1f1f1;
+    transition: border-left-width 0.2s linear;
+}
+.postlist-post:hover {
+    background-color: #fafafc;
+}
+.postlist-post.postlist-post__active {
+    border-left: 10px solid #2ecc71;
+    background-color: #fafafc
+}
+.postlist-post-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5em;
+}
+.postlist-container {
+    height: calc(100vh - 95px);
+    margin-top: -1px;
+}
+.postlist-title {
+    font-size: 24px;
+    margin-bottom: 1rem;
+}
+.postlist-excerpt {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+
+/* = POSTLIST : POST CATEGORY
+===================================================*/
+.postlist-category {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0 0 10px;
+    color: #61626a;
+    font-family: Poppins,Arial,Sans-Serif;
+}
+.postlist-category span {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin: 0 13px 0 0;
+    vertical-align: 1px;
+    border-radius: 28px;
+    background: #95989c;
 }
 .postlist-post-excerpt {
 font-size: 1em;
@@ -158,67 +222,113 @@ border: 1px solid #2a2b31;
 border-radius: 2px;
 background: 0 0;
 }
-.container-main {
-    float: right;
-    width: calc(100% - 35%);
-    height: 100vh;
-}
-.postlist-container {
-    height: calc(100vh - 95px);
-    margin-top: -1px;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: none;
-}
-.container-main, .postlist-container {
-overflow-x: hidden;
-overflow-y: auto;
-}
 
-.postlist-author-twitter, .postlist-post-category {
-font-size: 13px;
-font-weight: 500;
-margin: 0 0 10px;
-letter-spacing: .2px;
-color: #61626a;
-font-family: Poppins,Arial,Sans-Serif;
-}
-.postlist-post-category span {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    margin: 0 13px 0 0;
-    vertical-align: 1px;
-    border-radius: 28px;
-    background: #95989c;
-}
-.cover {
+
+/* = POST COVER : SINGLE POST COVER
+===================================================*/
+.post-cover {
     position: relative;
     display: flex;
     overflow: hidden;
     flex-direction: column;
     width: 100%;
-    padding: 3em;
-    background: #8e44ad;
+    padding: 6em 4em 4em 4em;
+    background: #2c3e50;
     justify-content: flex-end;
     color: #FFF;
 }
+.post-cover--category,
+.post-cover--title {
+    margin-bottom: 1em;
+}
+.post-cover--category .category-badge {
+    width: 12px;
+    height: 12px;
+}
+.post-cover--category a {
+    color: #CCC;
+}
+.post-cover--category a:hover {
+    color: #FFF;
+}
+.post-cover--category .category-badge {
+    width: 12px;
+    height: 12px;
+    transition: width 0.2s ease;
+}
+.post-cover--category a:hover .category-badge {
+    width: 25px;
+}
+.post-cover--excerpt {
+    margin-bottom: 1.5em;
+}
+.post-cover--toggle-fullscreen {
+    position: absolute;
+    top: 1em;
+    cursor: pointer;
+}
+
+/* = POST TAGS : POST TAGS
+===================================================*/
 .post-tags {
     list-style-type: none;
-    margin: 0;
+    margin: 1em 0;
     padding: 0;
+    overflow: hidden;
 }
 .post-tags li {
-    float:left;
-    padding: 5px 10px;
-    border: 1px solid #FFF;
-    margin-right: 5px;
+    float: left;
+    padding: 3px 16px;
+    text-transform: capitalize;
+    margin: 0 10px 0 0;
+    font-size: 16px;
 }
+.post-header .post-tags li {
+    border: 1px solid #FFF;
+}
+.post-footer .post-tags li {
+    border: 1px solid #CCC;
+}
+
+
+/* = POST GUIDE : POST GUIDE UNDER POST COVER
+===================================================*/
+.post-guide {
+    background: #202126;
+    color: #FFF;
+    padding: 1.5em 4em;
+    display: flex;
+    justify-content: space-between;
+}
+.post-guide--meta {
+    color: #999;
+    font-size: 0.9em;
+}
+.post-guide a {
+    color: #999;
+}
+.post-guide a:hover {
+    color: #FFF;
+}
+
 .ion-md-menu {
     font-size: 2em;
 }
-.post-main {
-    padding: 3em;
+
+
+/* = POST CONTENT : POST CONTENT
+===================================================*/
+.post-content--main {
+    padding: 4em;
 }
+
+
+/* = POST FOOTER : POST FOOTER
+===================================================*/
+.post-footer {
+    padding: 4em;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;

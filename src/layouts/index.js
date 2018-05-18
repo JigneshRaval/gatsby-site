@@ -7,6 +7,7 @@ import PostList from '../components/postlist'
 
 import './index.css'
 import './main.css'
+import '../assets/css/icomoon-fonts.css'
 
 const Layout = ({ children, data }) => {
 	console.log('Layout ::', data);
@@ -51,6 +52,8 @@ export const query = graphql`
 						path
 						tags
 						title
+						category
+						categoryColor
 					}
 				}
 			}
