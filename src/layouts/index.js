@@ -7,7 +7,7 @@ import PostList from '../components/postlist'
 
 import './index.css'
 import './main.css'
-import '../assets/css/icomoon-fonts.css'
+// import '../assets/css/icomoon-fonts.css'
 
 const Layout = ({ children, data }) => {
 	console.log('Layout ::', data);
@@ -43,6 +43,7 @@ export const query = graphql`
 		allMarkdownRemark(
 			sort: { order: DESC, fields: [frontmatter___date] }
 		) {
+			totalCount
 			edges {
 				node {
 					excerpt(pruneLength: 250)

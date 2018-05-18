@@ -21,7 +21,21 @@ export const SearchPost = (props) => {
         props.updateFilter(data);
     };
 
-    return <input type="text" className="uk-input" placeholder="Search" onChange={filterList} />
+    const showSearch = (event) => {
+        document.querySelector('.postlist-header').classList.add('isSearchActive');
+    }
+
+    const hideSearch = (event) => {
+        document.querySelector('.postlist-header').classList.remove('isSearchActive');
+    }
+
+    return (
+        <div className="postlist-header--search">
+            <i className="icon icon-search" onClick={showSearch}></i>
+            <input type="text" className="uk-input" placeholder="Search" onChange={filterList} />
+            <i className="icon icon-x-square" onClick={hideSearch}></i>
+        </div>
+    )
 
 }
 

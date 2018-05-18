@@ -15,8 +15,8 @@ export default class PostList extends React.Component {
         }
 
         this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
-        this.hideSearch = this.hideSearch.bind(this);
-        this.showSearch = this.showSearch.bind(this);
+        // this.hideSearch = this.hideSearch.bind(this);
+        // this.showSearch = this.showSearch.bind(this);
         this.makePostActive = this.makePostActive.bind(this);
     }
 
@@ -25,13 +25,13 @@ export default class PostList extends React.Component {
         this.setState({ data: filterValue });
     }
 
-    showSearch = (event) => {
+    /* showSearch = (event) => {
         document.querySelector('.postlist-header').classList.add('isSearchActive');
     }
 
     hideSearch = (event) => {
         document.querySelector('.postlist-header').classList.remove('isSearchActive');
-    }
+    } */
 
     makePostActive(event) {
         var postListNodes = document.querySelectorAll('.postlist-post');
@@ -49,12 +49,10 @@ export default class PostList extends React.Component {
             <div className="postlist">
 
                 <header className="postlist-header">
-                    <h2 className="postlist-header--title">Articles</h2>
-                    <div className="postlist-header--search">
-                        <i className="icon icon-search" onClick={this.showSearch}></i>
-                        <SearchPost data={this.state.data} initialData={this.state.initialData} updateFilter={this.handleFilterUpdate} />
-                        <i className="icon icon-x-square" onClick={this.hideSearch}></i>
-                    </div>
+                    <h2 className="postlist-header--title">Articles <span className="postlist-header--count">{this.state.data.allMarkdownRemark.totalCount}</span></h2>
+
+                    <SearchPost data={this.state.data} initialData={this.state.initialData} updateFilter={this.handleFilterUpdate} />
+
                     <a href="/" className="postlist-back"><span><i className="icon icon-home"></i> Back to Latest Articles</span></a>
                 </header>
 

@@ -77,6 +77,18 @@ a {
 .postlist-header--title i {
     float: right;
 }
+.postlist-header--count {
+    display: inline-block;
+    padding: 5px;
+    background-color: red;
+    border-radius: 50px;
+    height: 24px;
+    width: 24px;
+    line-height: normal;
+    font-size: 14px;
+    text-align: center;
+    color: #FFF;
+}
 .postlist-header.isSearchActive {
     background-color: #3498db;
 }
@@ -112,6 +124,7 @@ a {
     color: #000000;
     font-size: 32px;
     cursor: pointer;
+    margin-right: 1em;
 }
 .postlist-header--search .icon-x-square {
     color: #FFF;
@@ -121,7 +134,8 @@ a {
     opacity: 0;
     border: 1px solid #FFF;
     padding: 8px;
-    width: 85%;
+    width: 100%;
+    margin-right: 1em;
 }
 .postlist-back {
     display: block;
@@ -129,7 +143,7 @@ a {
     font-size: 16px;
     font-weight: 500;
     line-height: normal;
-    color: #3b3b40;
+    color: #979797;
     border-top: 1px solid #f1f1f1;
     border-bottom: 1px solid #f1f1f1;
     background: #fafafc;
@@ -141,7 +155,7 @@ a {
 .postlist-back:hover i.icon {
     color: #27ae60;
 }
-/* = POSTLIST : POST
+/* = POSTLIST : LIST OF POSTS
 ===================================================*/
 .postlist-container {
     height: calc(100vh - 95px);
@@ -151,6 +165,9 @@ a {
     overflow-x: hidden;
     overflow-y: auto;
 }
+.postlist-container::-webkit-scrollbar-track{background-color:#fff}
+.postlist-container::-webkit-scrollbar{width:0;background-color:#f5f5f5}
+.postlist-container::-webkit-scrollbar-thumb{background-color:#eee}
 .postlist-post {
     border-bottom: 1px solid #f1f1f1;
     transition: border-left-width 0.2s linear;
@@ -173,11 +190,13 @@ a {
     margin-top: -1px;
 }
 .postlist-title {
-    font-size: 24px;
+    font-size: 22px;
     margin-bottom: 1rem;
+    font-weight: normal;
+    color: #000;
 }
 .postlist-excerpt {
-    font-size: 16px;
+    font-size: 15px;
     margin-bottom: 0;
 }
 
@@ -201,26 +220,53 @@ a {
     background: #95989c;
 }
 .postlist-post-excerpt {
-font-size: 1em;
+	font-size: 1em;
 }
 .postlist-filter-item {
-display: inline-block;
-margin: 0 15px 20px 0;
+	display: inline-block;
+	margin: 0 15px 20px 0;
 }
 .postlist-filter-item-anchor, .postlist-filter-title {
-letter-spacing: .2px;
-color: #fff;
-font-family: 'Poppins',Arial,Sans-Serif;
+	letter-spacing: .2px;
+	color: #fff;
+	font-family: 'Poppins',Arial,Sans-Serif;
 }
 .postlist-filter-item-anchor {
-font-size: 12px;
-font-weight: 600;
-line-height: normal;
-display: block;
-padding: 16px 22px;
-border: 1px solid #2a2b31;
-border-radius: 2px;
-background: 0 0;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: normal;
+	display: block;
+	padding: 16px 22px;
+	border: 1px solid #2a2b31;
+	border-radius: 2px;
+	background: 0 0;
+}
+
+/* = POST BAR : TOP BAR
+===================================================*/
+.post-bar {
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #FFF;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
+    position: sticky;
+    z-index: 1;
+    top:0;
+}
+.post-bar h3 {
+    margin: 0;
+}
+.icon-menu {
+    font-size: 32px;
+}
+.post-cover--toggle-fullscreen {
+    /* position: absolute;
+    top: 1em; */
+    cursor: pointer;
+    display: inline;
+    margin-right: 2em;
 }
 
 
@@ -232,7 +278,7 @@ background: 0 0;
     overflow: hidden;
     flex-direction: column;
     width: 100%;
-    padding: 6em 4em 4em 4em;
+    padding: 4em 4em 4em 4em;
     background: #2c3e50;
     justify-content: flex-end;
     color: #FFF;
@@ -262,11 +308,7 @@ background: 0 0;
 .post-cover--excerpt {
     margin-bottom: 1.5em;
 }
-.post-cover--toggle-fullscreen {
-    position: absolute;
-    top: 1em;
-    cursor: pointer;
-}
+
 
 /* = POST TAGS : POST TAGS
 ===================================================*/
@@ -299,6 +341,9 @@ background: 0 0;
     padding: 1.5em 4em;
     display: flex;
     justify-content: space-between;
+    /* position: sticky;
+    z-index: 300;
+    top: 0 */
 }
 .post-guide--meta {
     color: #999;
@@ -311,17 +356,19 @@ background: 0 0;
     color: #FFF;
 }
 
-.ion-md-menu {
-    font-size: 2em;
-}
-
 
 /* = POST CONTENT : POST CONTENT
 ===================================================*/
 .post-content--main {
+
+}
+.post-content {
     padding: 4em;
 }
-
+.post-comments {
+    background-color: #fafafc;
+    padding: 4em;
+}
 
 /* = POST FOOTER : POST FOOTER
 ===================================================*/

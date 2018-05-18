@@ -49,7 +49,7 @@ const getUniqueTags = (edges) => {
 	const set = new Set();
 
 	edges.forEach((edge) => {
-		// console.log('getUniqueTags ::', edge, edge.node, edge.node.frontmatter.tags)
+		console.log('getUniqueTags ::', edge, edge.node, edge.node.frontmatter.tags)
 		edge.node.frontmatter.tags.forEach(tag => set.add(tag))
 	});
 
@@ -96,6 +96,7 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
 									tags
 									category
 									categoryColor
+									coverImage
 								}
 							}
 						}

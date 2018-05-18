@@ -23,13 +23,17 @@ export default function Template({
         <div className="blog-post-container">
 
             <article className="post">
-
-
+                <div className="post-bar">
+                    <div className="post-cover--toggle-fullscreen" onClick={expandPost}>
+                        <i className="icon icon-menu"></i> <span className="visuallyhidden">Read in fullscreen mode.</span>
+                    </div>
+                    <h3>My Blog</h3>
+                </div>
                 <header className="post-header">
                     <div className="post-cover" style={{ backgroundImage: 'url(' + frontmatter.coverImage + ')' }}>
-                        <div className="post-cover--toggle-fullscreen" onClick={expandPost}>
-                            <i className="icon ion-md-menu"></i> <span className="visuallyhidden">Read in fullscreen mode.</span>
-                        </div>
+                        {/* <div className="post-cover--toggle-fullscreen" onClick={expandPost}>
+                            <i className="icon icon-menu"></i> <span className="visuallyhidden">Read in fullscreen mode.</span>
+                        </div> */}
                         <div className="post-cover--content">
                             <div className="post-cover--category">
                                 <a href="/"><span className="category-badge" data-category-color={frontmatter.categoryColor} style={{ backgroundColor: frontmatter.categoryColor }}></span> {frontmatter.category}</a>
@@ -56,15 +60,13 @@ export default function Template({
 
                 <section className="post-content--main">
 
-                    <div className="post-inner">
-                        <div
-                            className="blog-post-content"
-                            dangerouslySetInnerHTML={{ __html: html }}
-                        />
-                    </div>
+                    <div
+                        className="post-content"
+                        dangerouslySetInnerHTML={{ __html: html }}
+                    />
 
-                    <div className="comments">
-
+                    <div className="post-comments comments">
+                        Comment List
                     </div>
 
                 </section>

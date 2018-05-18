@@ -23,18 +23,21 @@ module.exports = class HTML extends React.Component {
 		return (
 			<html {...this.props.htmlAttributes}>
 				<head>
+					<title>Gatsby Blog - JR</title>
 					<meta charSet="utf-8" />
 					<meta httpEquiv="x-ua-compatible" content="ie=edge" />
 					<meta
 						name="viewport"
 						content="width=device-width, initial-scale=1, shrink-to-fit=no"
 					/>
+					<link rel="shortcut icon" type="image/png" href="/images/favicon-16x16.png" />
+					<link rel="shortcut icon" type="image/png" href="/images/favicon-16x16.png" />
 					<link href="https://fonts.googleapis.com/css?family=Poppins:100,300,400,500,600,700,800" rel="stylesheet" />
 
 					<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 					<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=latin-ext" rel="stylesheet" />
 					<link href="https://unpkg.com/ionicons@4.1.1/dist/css/ionicons.min.css" rel="stylesheet" />
-
+					<link href="/css/icomoon-fonts.css" rel="stylesheet" />
 					{this.props.headComponents}
 					{css}
 				</head>
