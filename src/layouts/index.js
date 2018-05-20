@@ -22,7 +22,7 @@ export default class Layout extends React.Component {
 
 		// Methods
 		this.filterSnippetsList = this.filterSnippetsList.bind(this);
-
+		hljs.initHighlightingOnLoad();
 	}
 
 	// Filter from blog post list

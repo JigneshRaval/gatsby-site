@@ -9,6 +9,8 @@ if (process.env.NODE_ENV === `production`) {
 	}
 }
 
+// https://www.browserling.com/tools/html-to-markdown
+// https://domchristie.github.io/turndown/
 module.exports = class HTML extends React.Component {
 	render() {
 		let css
@@ -37,7 +39,12 @@ module.exports = class HTML extends React.Component {
 					<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 					<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=latin-ext" rel="stylesheet" />
 					<link href="https://unpkg.com/ionicons@4.1.1/dist/css/ionicons.min.css" rel="stylesheet" />
+					<link href="/css/github-gist.css" rel="stylesheet" />
 					<link href="/css/icomoon-fonts.css" rel="stylesheet" />
+
+					<script src="/js/highlight.pack.js"></script>
+					<script></script>
+
 					{this.props.headComponents}
 					{css}
 				</head>
