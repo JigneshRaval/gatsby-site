@@ -18,6 +18,7 @@ export const SearchPost = (props) => {
             }
         });
 
+        // Calling updateFilter method passed from sidebar-header.js
         props.updateFilter(data);
     };
 
@@ -27,12 +28,13 @@ export const SearchPost = (props) => {
 
     const hideSearch = (event) => {
         document.querySelector('.postlist-header').classList.remove('isSearchActive');
+        document.querySelector('input[name="searchPost"]').value = '';
     }
 
     return (
         <div className="postlist-header--search">
             <i className="icon icon-search" onClick={showSearch}></i>
-            <input type="text" className="uk-input" placeholder="Search" onChange={filterList} />
+            <input type="text" name="searchPost" className="uk-input" placeholder="Type here to search post" onChange={filterList} />
             <i className="icon icon-x-square" onClick={hideSearch}></i>
         </div>
     )

@@ -1,12 +1,11 @@
 import React from 'react'
 import Link from 'gatsby-link';
 import { SearchPost } from './Search-Post';
+import { SidebarHeader } from './Sidebar-Header';
 
 export default class PostList extends React.Component {
     constructor(props) {
         super(props);
-
-        console.log('PostList :', props.data);
 
         this.state = {
             data: props.data,
@@ -15,23 +14,12 @@ export default class PostList extends React.Component {
         }
 
         this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
-        // this.hideSearch = this.hideSearch.bind(this);
-        // this.showSearch = this.showSearch.bind(this);
         this.makePostActive = this.makePostActive.bind(this);
     }
 
     handleFilterUpdate = (filterValue) => {
-        console.log('filterValue ::', filterValue);
         this.setState({ data: filterValue });
     }
-
-    /* showSearch = (event) => {
-        document.querySelector('.postlist-header').classList.add('isSearchActive');
-    }
-
-    hideSearch = (event) => {
-        document.querySelector('.postlist-header').classList.remove('isSearchActive');
-    } */
 
     makePostActive(event) {
         var postListNodes = document.querySelectorAll('.postlist-post');
@@ -48,13 +36,16 @@ export default class PostList extends React.Component {
         return (
             <div className="postlist">
 
-                <header className="postlist-header">
-                    <h2 className="postlist-header--title">Articles <span className="postlist-header--count">{this.state.data.allMarkdownRemark.totalCount}</span></h2>
+
+                <SidebarHeader data={this.state.data} initialData={this.state.initialData} updateFilter={this.handleFilterUpdate} />
+
+                {/*  <header className="postlist-header">
+                    <h2 className="postlist-header--title">Articles <span className="postlist-header--count">{this.state.data.allMarkdownRemark.edges.length}</span></h2>
 
                     <SearchPost data={this.state.data} initialData={this.state.initialData} updateFilter={this.handleFilterUpdate} />
 
                     <a href="/" className="postlist-back"><span><i className="icon icon-home"></i> Back to Latest Articles</span></a>
-                </header>
+                </header> */}
 
 
                 <div className="postlist-container">
@@ -66,7 +57,7 @@ export default class PostList extends React.Component {
                                     <span className="category-badge" style={{ backgroundColor: node.frontmatter.categoryColor }} data-category-color={node.frontmatter.categoryColor}></span> {node.frontmatter.category}
                                 </div>
                                 <h3 className="postlist-title">{node.frontmatter.title}</h3>
-                                <p className="postlist-excerpt" >{node.excerpt}</p>
+                                <p className="postlist-excerpt hidden" >{node.excerpt}</p>
                             </Link>
                         </article>
                     ))}

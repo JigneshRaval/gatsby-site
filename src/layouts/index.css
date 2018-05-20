@@ -620,6 +620,10 @@ pre tt:after {
 	margin: -1px; padding: 0; border: 0;
 }
 
+.hidden {
+	display: none;
+}
+
 body {
 	height: 100%;
 }

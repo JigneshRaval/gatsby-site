@@ -9,29 +9,80 @@ import './index.css'
 import './main.css'
 // import '../assets/css/icomoon-fonts.css'
 
-const Layout = ({ children, data }) => {
-	console.log('Layout ::', data);
-	return (
-		<div className="container">
-			<div className="container-side">
-				{/* <div className="header">
+export default class Layout extends React.Component {
+
+	constructor(props) {
+
+		super(props);
+
+		// State
+		this.state = {
+			data: this.props.data
+		}
+
+		// Methods
+		this.filterSnippetsList = this.filterSnippetsList.bind(this);
+
+	}
+
+	// Filter from blog post list
+	filterSnippetsList() {
+
+		let data = {
+			allMarkdownRemark: {
+				edges: []
+			}
+		}
+
+		this.props.data.allMarkdownRemark.edges.filter(({ node }) => {
+			if (node.id.indexOf('/blog') > 0) {
+				data.allMarkdownRemark.edges.push({ node: node });
+			}
+		});
+
+		return data;
+	}
+
+	componentWillMount() {
+
+		let dataNew = this.filterSnippetsList();
+
+		this.setState({
+			data: dataNew
+		});
+
+	}
+
+	render() {
+		return (
+			<div className="container">
+				<div className="container-side">
+					{/* <div className="header">
 					test
       			</div> */}
-				<PostList data={data} />
-			</div>
+					<PostList data={this.state.data} />
+				</div>
 
-			<div className="container-main">
-				{children()}
+				<div className="container-main">
+					{this.props.children()}
+				</div>
 			</div>
-		</div>
-	)
+		);
+	}
 }
 
 Layout.propTypes = {
 	children: PropTypes.func,
 }
 
-export default Layout
+//export default Layout
+
+/**
+ * allMarkdownRemark(
+			filter: { frontmatter:  { category: { eq:"Angular"}}},
+			sort: { order: DESC, fields: [frontmatter___date] }
+		)
+ */
 
 export const query = graphql`
 	query SiteTitleQuery {

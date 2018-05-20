@@ -11,13 +11,13 @@ module.exports = {
 				name: "pages",
 			},
 		},
-		{
+		/* {
 			resolve: `gatsby-source-filesystem`,
 			options: {
 				path: `${__dirname}/src/assets`,
 				name: 'images',
 			},
-		},
+		}, */
 		`gatsby-transformer-remark`,
 	],
 }

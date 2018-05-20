@@ -129,6 +129,7 @@ a {
 .postlist-header--search .icon-x-square {
     color: #FFF;
     font-size: 32px;
+    cursor: pointer;
 }
 .postlist-header--search input {
     opacity: 0;
@@ -176,7 +177,7 @@ a {
     background-color: #fafafc;
 }
 .postlist-post.postlist-post__active {
-    border-left: 10px solid #2ecc71;
+    border-left: 3px solid #2ecc71;
     background-color: #fafafc
 }
 .postlist-post-inner {
@@ -191,7 +192,7 @@ a {
 }
 .postlist-title {
     font-size: 22px;
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
     font-weight: normal;
     color: #000;
 }
@@ -257,7 +258,24 @@ a {
 }
 .post-bar h3 {
     margin: 0;
+    flex-grow: 1;
 }
+
+.post-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+.post-bar ul li {
+    margin: 0;
+}
+.post-bar ul li a {
+    display: block;
+    padding: 5px 15px;
+}
+
 .icon-menu {
     font-size: 32px;
 }
@@ -324,6 +342,9 @@ a {
     text-transform: capitalize;
     margin: 0 10px 0 0;
     font-size: 16px;
+}
+.post-tags li a {
+    color: #FFF;
 }
 .post-header .post-tags li {
     border: 1px solid #FFF;

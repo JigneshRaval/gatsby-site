@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'gatsby-link'
 
 export const TagList = ({ tags }) => {
     return (
@@ -7,7 +8,9 @@ export const TagList = ({ tags }) => {
                 tags
                     .filter((value, index, self) => self.indexOf(value) === index)
                     .map((tag, i) => {
-                        return <li className="post-tags--item" key={i}>{tag}</li>
+                        return <li className="post-tags--item" key={i}>
+                            <Link to='/tags'>{tag}</Link>
+                        </li>
                     })
             }
         </ul>

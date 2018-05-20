@@ -91,11 +91,36 @@ export default function Template({
     );
 }
 
-export const pageQuery = graphql`
-    query BlogPostByPath($path: String!) {
-        markdownRemark(
-            frontmatter: { path: { eq: $path } }
-        ) {
+/**
+ * warning The GraphQL query in the non-page component "C:/Documents/GitHub/gatsby-site/src/templates/snippets-template.js" will not be run.
+Queries are only executed for Page or Layout components. Instead of a query,
+co-locate a GraphQL fragment and compose that fragment into the query (or other
+fragment) of the top-level page or layout that renders this component. For more
+info on fragments and composition see: http://graphql.org/learn/queries/#fragments
+success extract queries from components — 0.342 s
+ */
+
+
+/* export const SnippetsPageQueryFragment = graphql`
+    fragment SnippetsQueryFragment on MarkdownRemark {
+        html
+        frontmatter {
+            excerpt
+            date(formatString: "MMMM DD, YYYY")
+            path
+            title
+            tags
+            category
+            categoryColor
+            coverImage
+        }
+    }
+`; */
+
+
+export const SnippetsPageQuery = graphql`
+    query SnippetsByPath($path: String!) {
+        markdownRemark(frontmatter: { path: { eq: $path } }) {
             html
             frontmatter {
                 excerpt
@@ -110,3 +135,4 @@ export const pageQuery = graphql`
         }
     }
 `;
+
