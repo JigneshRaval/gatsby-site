@@ -131,6 +131,7 @@ export const SnippetsPageQuery = graphql`
                 category
                 categoryColor
                 coverImage
+                sourceUrl
             }
         }
     }

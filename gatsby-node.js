@@ -122,6 +122,7 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 									category
 									categoryColor
 									coverImage
+									sourceUrl
 								}
 							}
 						}
@@ -164,7 +165,8 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 							excerpt: node.frontmatter.excerpt,
 							category: node.frontmatter.category,
 							categoryColor: node.frontmatter.categoryColor,
-							coverImage: node.frontmatter.coverImage
+							coverImage: node.frontmatter.coverImage,
+							sourceUrl: node.frontmatter.sourceUrl
 						},
 					});
 				});

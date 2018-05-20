@@ -30,6 +30,7 @@ export default function Template({
                                 {frontmatter.excerpt}
                             </p>
                             <TagList tags={frontmatter.tags} />
+                            <a href={frontmatter.sourceUrl} target="_blank">{frontmatter.title}</a>
                         </div>
                     </div>
 
@@ -106,6 +107,7 @@ export const pageQuery = graphql`
                 category
                 categoryColor
                 coverImage
+                sourceUrl
             }
         }
     }
