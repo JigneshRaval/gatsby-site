@@ -10,16 +10,10 @@ coverImage: '/images/fpxoowbr6ls-matthew-henry.jpg'
 sourceUrl: 'https://medium.com/@cyrilletuzi/architecture-in-angular-projects-242606567e40'
 ---
 
+Architecture in Angular projects
+================================
 
-# Architecture in Angular projects
-
-![](https://cdn-images-1.medium.com/freeze/max/30/1*CvCQni5XYJDzHuxZeg_OqQ.png?q=20)
-
-![](https://cdn-images-1.medium.com/max/800/1*CvCQni5XYJDzHuxZeg_OqQ.png)
-
-![](https://cdn-images-1.medium.com/max/800/1*CvCQni5XYJDzHuxZeg_OqQ.png)
-
-One year ago, I published [**Understanding Angular modules (NgModule)**](https://medium.com/@cyrilletuzi/understanding-angular-modules-ngmodule-and-their-scopes-81e4ed6f7407). This post was focused on a technical point: scope, to know when to import a NgModule. You should [read it first](https://medium.com/@cyrilletuzi/understanding-angular-modules-ngmodule-and-their-scopes-81e4ed6f7407), but it didn’t explain how to organize your own modules.
+One year ago, I published [**Understanding Angular modules (NgModule)**](https://medium.com/@cyrilletuzi/understanding-angular-modules-ngmodule-and-their-scopes-81e4ed6f7407) . This post was focused on a technical point: scope, to know when to import a NgModule. You should [read it first](https://medium.com/@cyrilletuzi/understanding-angular-modules-ngmodule-and-their-scopes-81e4ed6f7407), but it didn’t explain how to organize your own modules.
 
 Recently, I was challenged about **architecture in Angular projects**. Until now, I was mostly following what is suggested in Angular doc. But against big projects, several flaws appeared and something was wrong.
 
@@ -70,7 +64,14 @@ These modules contain 3 things:
 
 To display a page, you need data first. Here come services.
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		`@Injectable({ providedIn: 'root' })
+			export class SomeService {
+			constructor(protected http: HttpClient) {}
+			getData() {
+			return this.http.get<SomeData>('/path/to/api');
+			}
+			}`
+
 
 Soon, several pages will need the same service. Thus the **shared** directory.
 
@@ -84,7 +85,19 @@ A page component just injects the service, and uses it to get the data.
 
 You could display the data directly in the component template but you should _not_: **data should be transferred to another component** via an attribute.
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		``@Component({
+			template: `<app-presentation *ngIf="data" [data]="data"></app-presentation>`
+			})
+			export class PageComponent {
+			data: SomeData;
+			constructor(protected someService: SomeService) {}
+			ngOnInit() {
+			this.someService.getData().subscribe((data) => {
+			this.data = data;
+			});
+			}
+			}``
+
 
 Each page component is associated to a **route**.
 
@@ -92,7 +105,14 @@ Each page component is associated to a **route**.
 
 A presentation component just **retrieves the transferred data** with the [Input decorator](https://angular.io/guide/component-interaction#pass-data-from-parent-to-child-with-input-binding), and displays it in the template.
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		``@Component({
+			selector: 'app-presentation',
+			template: `<h1>{{data.title}}</h1>`
+			})
+			export class PresentationComponent {
+			@Input() data: SomeData;
+			}``
+
 
 #### Is this MVx?
 
@@ -112,7 +132,12 @@ Even it’s not exactly the same concept, the goal is the same : **separation o
 
 Example of a module of pages:
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		`@NgModule({
+			imports: [CommonModule, MatCardModule, PagesRoutingModule],
+			declarations: [PageComponent, PresentationComponent]
+			})
+			export class PagesModule {}`
+
 
 ### Modules of global services
 
@@ -128,7 +153,9 @@ Modules of global services are **reusable** through different projects if you ta
 
 As such a module will be used from outside, you should do an **entry point**, where you export the NgModule, the services and maybe interfaces and injection tokens.
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		`export { SomeService } from './some.service';
+			export { SomeModule } from './some.module';`
+
 
 #### Should I do a CoreModule?
 
@@ -138,7 +165,11 @@ _Not necessary_. The documentation suggests to do a CoreModule for global servic
 
 Example of a module of global services:
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		`@NgModule({
+			providers: [SomeService]
+			})
+			export class SomeModule {}`
+
 
 Again, the module is not necessary since Angular 6.
 
@@ -152,7 +183,13 @@ You certainly use one, like [Material](https://material.angular.io/), [NgBootstr
 
 **UI components are pure presentation components**. So they work exactly the same as in modules of pages (see above): data should come from the [Input decorator](https://angular.io/guide/component-interaction#pass-data-from-parent-to-child-with-input-binding) (and sometimes from <ng-content> in advanced cases).
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		`@Component({
+			selector: 'ui-carousel'
+			})
+			export class CarouselComponent {
+			@Input() delay = 5000;
+			}`
+
 
 You should _not_ rely on a service, because services are often specific to a particular app. Why? At least because of the API URL. Providing the data will be the role of pages component. The UI component just retrieves data passed by someone else.
 
@@ -168,7 +205,12 @@ An UI module can also be about directives or pipes. Same as components: they nee
 
 Services inside UI modules can be relevant for data manipulation if they contain nothing specific. But then, be sure to **provide them in the component**, so they have a local/private scope, and certainly _not_ in the NgModule.
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		`@Component({
+			selector: 'some-ui',
+			providers: [LocalService]
+			})
+			export class SomeUiComponent {}`
+
 
 #### Public services
 
@@ -178,13 +220,26 @@ You will then provide the public services in the NgModule. But as the module wil
 
 You then need **an extra code for each public service to prevent them to be loaded several times**. It would be too long to explain it here, but it’s a best practice (done in Material for example). Just replace SomeService by the name of your class:
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		`export function SOME_SERVICE_FACTORY(parentService: SomeService) {
+			return parentService || new SomeService();
+			}
+			@NgModule({
+			providers: [{
+			provide: SomeService,
+			deps: [[new Optional(), new SkipSelf(), SomeService]],
+			useFactory: SOME_SERVICE_FACTORY
+			}]
+			})
+			export class UiModule {}`
+
 
 #### Reusability
 
 Modules of UI components are reusable through different projects. As it will be used from outside, you should do an **entry point**, where you export the NgModule, the public/exported components (and maybe directives, pipes, _public_ services, interfaces and injection tokens).
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		`export { SomeUiComponent }  from './some-ui/some-ui.component';
+			export { UiModule } from './ui.module';`
+
 
 #### Should I do a SharedModule?
 
@@ -200,22 +255,59 @@ But you can surely group your modules of components inside a /ui/ _directory_ (d
 
 Example of a module of reusable UI components:
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
+		`@NgModule({
+			imports: [CommonModule],
+			declarations: [PublicComponent, PrivateComponent],
+			exports: [PublicComponent]
+			})
+			export class UiModule {}`
+
 
 ### Conclusion
 
 If you follow those steps:
 
 *   you’ll have a **consistent architecture**: in small or big apps, with or without lazy-loading,
-*   your modules of global services and your modules of reusable components are **ready to be** [**packaged as libraries**](https://medium.com/@cyrilletuzi/how-to-build-and-publish-an-angular-module-7ad19c0b4464), reusable in other projects,
+*   your modules of global services and your modules of reusable components are **ready to be** [**packaged as libraries**](https://medium.com/@cyrilletuzi/how-to-build-and-publish-an-angular-module-7ad19c0b4464) , reusable in other projects,
 *   you’ll be able to do **unit tests without crying**.
 
 Here is an example of a real world architecture:
 
-![](https://i.embed.ly/1/display/resize?url=https%3A%2F%2Favatars2.githubusercontent.com%2Fu%2F555867%3Fs%3D400%26v%3D4&key=a19fcc184b9711e1b4764040d3dc5c07&width=40)
-
-The goal of this post is also to confront this architecture with the community, ie. you who is reading. So if I missed some use cases, feel free to comment.
-
-### Angular onsite training
-
-If you like this post, I organize Angular courses (based in Paris, France, but open to travel). You can find [details here](https://formationjavascript.com/formation-angular/) (in French) or [contact me](https://www.cyrilletuzi.com/en/web).
+    `app/
+        |- app.module.ts
+        |- app-routing.module.ts
+        |- core/
+        |- auth/
+            |- auth.module.ts (optional since Angular 6)
+            |- auth.service.ts
+            |- index.ts
+        |- othermoduleofglobalservice/
+        |- ui/
+        |- carousel/
+            |- carousel.module.ts
+            |- index.ts
+            |- carousel/
+                |- carousel.component.ts
+                |- carousel.component.css
+            |- othermoduleofreusablecomponents/
+        |- heroes/
+        |- heroes.module.ts
+        |- heroes-routing.module.ts
+        |- shared/
+            |- heroes.service.ts
+            |- hero.ts
+        |- pages/
+            |- heroes/
+                |- heroes.component.ts
+                |- heroes.component.css
+            |- hero/
+                |- hero.component.ts
+                |- hero.component.css
+        |- components/
+            |- heroes-list/
+                |- heroes-list.component.ts
+                |- heroes-list.component.css
+            |- hero-details/
+                |- hero-details.component.ts
+                |- hero-details.component.css
+        |- othermoduleofpages/"`

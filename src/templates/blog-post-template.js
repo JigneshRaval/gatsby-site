@@ -18,9 +18,7 @@ export default function Template({
 
                 <header className="post-header">
                     <div className="post-cover" style={{ backgroundImage: 'url(' + frontmatter.coverImage + ')' }}>
-                        {/* <div className="post-cover--toggle-fullscreen" onClick={expandPost}>
-                            <i className="icon icon-menu"></i> <span className="visuallyhidden">Read in fullscreen mode.</span>
-                        </div> */}
+
                         <div className="post-cover--content">
                             <div className="post-cover--category">
                                 <a href="/"><span className="category-badge" data-category-color={frontmatter.categoryColor} style={{ backgroundColor: frontmatter.categoryColor }}></span> {frontmatter.category}</a>
@@ -29,13 +27,20 @@ export default function Template({
                             <p className="post-cover--excerpt">
                                 {frontmatter.excerpt}
                             </p>
+
                             <TagList tags={frontmatter.tags} />
-                            <a href={frontmatter.sourceUrl} target="_blank">{frontmatter.title}</a>
+
                         </div>
+
                     </div>
 
                     <div className="post-guide">
-                        <div className="post-guide--title"><span ></span> {frontmatter.title}</div>
+                        <a href={frontmatter.sourceUrl} className="post-guide--title"
+                            title={'Click to visit original website. ' + frontmatter.sourceUrl}
+                            target="_blank">
+                            <span className="category-badge" data-category-color={frontmatter.categoryColor} style={{ backgroundColor: frontmatter.categoryColor }}></span>
+                            {frontmatter.title}
+                        </a>
                         <div className="post-guide--meta">Posted on
                         <span className="guide-meta-date">
                                 <a href="https://nodewebapps.com/2017/06/27/javascript-testing-code-coverage/">
@@ -53,14 +58,10 @@ export default function Template({
                         dangerouslySetInnerHTML={{ __html: html }}
                     />
 
-                    <div className="post-comments comments">
-                        Comment List
-                    </div>
-
                 </section>
 
                 <footer className="post-footer">
-                    <Link to="/">Back to Home</Link>
+
                     <TagList tags={frontmatter.tags} />
 
                     <div className="post-related">

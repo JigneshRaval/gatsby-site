@@ -7,11 +7,43 @@ import PropTypes from "prop-types";
 import Link from "gatsby-link";
 
 const Tags = ({ pathContext, data }) => {
-    const { tag } = pathContext;
+
+    console.log('Tags Template :::: ', pathContext, data);
+
+    const { posts, post, tag } = pathContext;
     const { edges, totalCount } = data.allMarkdownRemark;
     const tagHeader = `${totalCount} post${
         totalCount === 1 ? "" : "s"
         } tagged with "${tag}"`;
+
+    if (tag) {
+        return (
+            <div>
+                <h1>
+                    {post.length} post{post.length === 1 ? '' : 's'} tagged with {tag}
+                </h1>
+                <ul>
+                    {post.map(({ id, frontmatter, excerpt }) => {
+                        return (
+                            <li key={id}>
+                                <h1>
+                                    <GatsbyLink to={frontmatter.path}>
+                                        {frontmatter.title}
+                                    </GatsbyLink>
+                                </h1>
+                                <p>
+                                    {excerpt}
+                                </p>
+                            </li>
+                        );
+                    })}
+                </ul>
+                <Link to="/tags">
+                    <TagsIcon /> All tags
+                </Link>
+            </div>
+        );
+    }
 
     return (
         <div>

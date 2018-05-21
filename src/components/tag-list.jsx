@@ -8,8 +8,9 @@ export const TagList = ({ tags }) => {
                 tags
                     .filter((value, index, self) => self.indexOf(value) === index)
                     .map((tag, i) => {
+                        // let tag = tag.toLowerCase();
                         return <li className="post-tags--item" key={i}>
-                            <Link to='/tags'>{tag}</Link>
+                            <Link to={`/tags/${tag.toLowerCase()}`}>{tag}</Link>
                         </li>
                     })
             }

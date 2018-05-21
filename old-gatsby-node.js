@@ -7,14 +7,42 @@
 // You can delete this file if you're not using it
 
 const path = require("path");
-const slash = require(`slash`);
+const slash = require(`slash`)
 
-// TEMPLATES
-// =======================================
-const blogPostTemplate = path.resolve(`src/templates/blog-post-template.js`);
-const tagTemplate = path.resolve("src/templates/tags-template.js");
-const snippetsTemplate = path.resolve("src/templates/snippets-template.js");
-const snippetsLayout = path.resolve("src/layouts/snippets-layout.js");
+/* exports.createPages = ({ boundActionCreators, graphql }) => {
+  const { createPage } = boundActionCreators;
+
+  const blogPostTemplate = path.resolve(`src/templates/blogTemplate.js`);
+
+  return graphql(`
+    {
+      allMarkdownRemark(
+        sort: { order: DESC, fields: [frontmatter___date] }
+        limit: 1000
+      ) {
+        edges {
+          node {
+            frontmatter {
+              path
+            }
+          }
+        }
+      }
+    }
+  `).then(result => {
+      if (result.errors) {
+        return Promise.reject(result.errors);
+      }
+
+      result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+        createPage({
+          path: node.frontmatter.path,
+          component: blogPostTemplate,
+          context: {}, // additional data can be passed via context
+        });
+      });
+    });
+}; */
 
 const getUniqueTags = (edges) => {
 	// METHOD 1
@@ -29,6 +57,18 @@ const getUniqueTags = (edges) => {
 	// console.log('SET :', ...set);
 	return [...set];
 
+	/* // METHOD 2
+	// ======================
+	const sampleValues = [1, 4, 5, 2, 'a', 'e', 'b', 'e', 2, 2, 4];
+	const uniqueValues = [...new Set(sampleValues)];
+	console.log(uniqueValues); */
+
+	/* // METHOD 3
+	// ======================
+	return edges.node.frontmatter.tags.filter(function (value, index, self) {
+		console.log("getUniqueTags :", value, index, self);
+		return self.indexOf(value) === index;
+	}); */
 };
 
 // Implement the Gatsby API “onCreatePage”. This is
@@ -53,8 +93,14 @@ const getUniqueTags = (edges) => {
 // data layer is bootstrapped to let plugins create pages from data.
 exports.createPages = ({ page, boundActionCreators, graphql }) => {
 	const { createPage, createLayout } = boundActionCreators;
-
+	console.log("PAGE =======>", page)
 	return new Promise((resolve, reject) => {
+
+		const blogPostTemplate = path.resolve(`src/templates/blog-post-template.js`);
+		const tagTemplate = path.resolve("src/templates/tags-template.js");
+		const snippetsTemplate = path.resolve("src/templates/snippets-template.js");
+		const snippetsLayout = path.resolve("src/layouts/snippets-layout.js");
+
 
 		// Query for markdown nodes to use in creating pages.
 		resolve(
@@ -91,10 +137,9 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 				// Create pages for each markdown file.
 				const posts = result.data.allMarkdownRemark.edges;
 
-				// createTagPages(createPage, posts);
+
 
 				// BLOG POSTS :: Create post detail pages
-				// =================================
 				posts.forEach(({ node }) => {
 					const path = node.frontmatter.path;
 
@@ -107,7 +152,6 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 						layout = 'snippets-layout';
 						template = snippetsTemplate;
 					}
-
 					createPage({
 						path,
 						component: template,
@@ -125,57 +169,24 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 							sourceUrl: node.frontmatter.sourceUrl
 						},
 					});
-
 				});
 
 				// Tag pages:
-				// REF. : https://www.gatsbyjs.org/docs/adding-tags-and-categories-to-blog-posts/
-				// =================================
-				/* let tags = [];
+				let tags = [];
 				// Iterate through each post, putting all found tags into `tags`
-				_.each(posts, edge => {
-					if (_.get(edge, "node.frontmatter.tags")) {
-						tags = tags.concat(edge.node.frontmatter.tags);
-					}
+				[].forEach.call(posts, edge => {
+					// console.log("POSTS ::", edge.node.frontmatter)
+					//if (edge.hasOwnProperty("node")) {
+					//tags = tags.concat(edge.node.frontmatter.tags);
+					//}
 				});
 				// Eliminate duplicate tags
-				tags = _.uniq(tags);
+				tags = getUniqueTags(tags);
 
 				// Make tag pages
 				tags.forEach(tag => {
 					createPage({
-						path: `/tags/${_.kebabCase(tag)}/`,
-						component: tagTemplate,
-						context: {
-							tag,
-						},
-					});
-				}); */
-
-				let tags = [],
-					postNew = {};
-
-				posts.forEach(({ node }) => {
-					if (node.frontmatter.tags) {
-						console.log(node.frontmatter.tags);
-						tags = tags.concat(node.frontmatter.tags);
-
-						node.frontmatter.tags.forEach(tag => {
-							if (!postNew[tag]) {
-								postNew[tag] = [];
-							}
-							postNew[tag].push(node);
-						});
-					}
-				});
-
-				let uniqueTags = [...new Set(tags)];
-
-
-
-				uniqueTags.forEach(tag => {
-					createPage({
-						path: `/tags/${tag.toLowerCase().replace(/\s/ig, '-')}`,
+						path: `/tags/${tag.toLowerCase()}`,
 						component: tagTemplate,
 						context: {
 							tag,
@@ -184,106 +195,8 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 					});
 				});
 
-				console.log('postNew ====>', postNew);
-
-				/* //
-				edges.forEach(({ node }) => {
-					if (node.frontmatter.tags) {
-						node.frontmatter.tags.forEach(tag => {
-							if (!posts[tag]) {
-								posts[tag] = [];
-							}
-							posts[tag].push(node);
-						});
-					}
-				});
-
-				Object.keys(posts).forEach(tagName => {
-					const post = posts[tagName];
-					createPage({
-						path: `/tags/${tagName.toLowerCase()}`,
-						component: tagTemplate,
-						context: {
-							posts: postsFiltered,
-							post,
-							tag: tagName
-						}
-					})
-				}); */
-
-				/* createPage({
-					path: '/tags',
-					component: tagTemplate,
-					context: {
-						posts: postsFiltered
-					}
-				}); */
-
-				/* // Make tag pages
-				tags.forEach(tag => {
-					createPage({
-						path: `/tags/${tag.toLowerCase()}/`,
-						component: tagTemplate,
-						context: {
-							posts,
-							tag
-						},
-					});
-				});
-
-				Object.keys(posts).forEach(tagName => {
-					const post = posts[tagName];
-					createPage({
-						path: `/tags/${tagName.toLowerCase()}`,
-						component: tagTemplate,
-						context: {
-							posts: postsFiltered,
-							post,
-							tag: tagName
-						}
-					})
-				}); */
-
 
 			})
 		);
-	});
-};
-
-
-const createTagPages = (createPage, edges) => {
-	// const tagTemplate = path.resolve(`src/templates/tags.js`);
-	const posts = {};
-
-	edges.forEach(({ node }) => {
-		if (node.frontmatter.tags) {
-			node.frontmatter.tags.forEach(tag => {
-				if (!posts[tag]) {
-					posts[tag] = [];
-				}
-				posts[tag].push(node);
-			});
-		}
-	});
-
-	createPage({
-		path: '/tags',
-		component: tagTemplate,
-		context: {
-			posts
-		}
-	});
-
-	Object.keys(posts).forEach(tagName => {
-		const post = posts[tagName];
-		createPage({
-			path: `/tags/${tagName.toLowerCase()}`,
-			component: tagTemplate,
-			context: {
-				posts,
-				post,
-				tag: tagName
-			}
-		})
 	});
 };
