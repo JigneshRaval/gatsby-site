@@ -5,20 +5,23 @@ import PropTypes from "prop-types";
 
 // Components
 import Link from "gatsby-link";
+// import { DataPassing } from '../components/DataPassing';
 
-const Tags = ({ pathContext, data }) => {
+const Tags = (props) => {
 
-    console.log('Tags Template :::: ', pathContext, data);
+    console.log('Tags Template :::: ', props);
 
-    const { posts, post, tag } = pathContext;
-    const { edges, totalCount } = data.allMarkdownRemark;
-    const tagHeader = `${totalCount} post${
-        totalCount === 1 ? "" : "s"
-        } tagged with "${tag}"`;
+    const { posts, post, tag } = props.pathContext;
+
+    window.postsHome = props.pathContext;
+    const handleChangeData = () => {
+        return props.pathContext;
+    }
 
     if (tag) {
         return (
             <div>
+                {/* <DataPassing changeData={handleChangeData} /> */}
                 <h1>
                     {post.length} post{post.length === 1 ? '' : 's'} tagged with {tag}
                 </h1>
@@ -27,9 +30,9 @@ const Tags = ({ pathContext, data }) => {
                         return (
                             <li key={id}>
                                 <h1>
-                                    <GatsbyLink to={frontmatter.path}>
+                                    <Link to={frontmatter.path}>
                                         {frontmatter.title}
-                                    </GatsbyLink>
+                                    </Link>
                                 </h1>
                                 <p>
                                     {excerpt}
@@ -39,7 +42,7 @@ const Tags = ({ pathContext, data }) => {
                     })}
                 </ul>
                 <Link to="/tags">
-                    <TagsIcon /> All tags
+                    All tags
                 </Link>
             </div>
         );
@@ -47,27 +50,27 @@ const Tags = ({ pathContext, data }) => {
 
     return (
         <div>
-            <h1>{tagHeader}</h1>
-            <ul>
-                {edges.map(({ node }) => {
-                    const { path, title } = node.frontmatter;
+            <h1>Tags</h1>
+            <ul className="tags">
+                {Object.keys(posts).map(tagName => {
+                    const tags = posts[tagName];
                     return (
-                        <li key={path}>
-                            <Link to={path}>{title}</Link>
+                        <li key={tagName}>
+                            <GatsbyLink to={`/tags/${tagName}`}>
+                                {tagName}
+                            </GatsbyLink>
                         </li>
                     );
                 })}
             </ul>
-            {/*
-              This links to a page that does not yet exist.
-              We'll come back to it!
-            */}
-            <Link to="/tags">All tags</Link>
+            <Link to="/">
+                All posts
+        </Link>
         </div>
     );
 };
 
-Tags.propTypes = {
+/* Tags.propTypes = {
     pathContext: PropTypes.shape({
         tag: PropTypes.string.isRequired,
     }),
@@ -87,7 +90,7 @@ Tags.propTypes = {
         }),
     }),
 };
-
+ */
 export default Tags;
 
 /**

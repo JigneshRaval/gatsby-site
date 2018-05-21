@@ -72,6 +72,7 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 								id
 								frontmatter {
 									path
+									title
 									tags
 									category
 									categoryColor
@@ -174,12 +175,14 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 
 
 				uniqueTags.forEach(tag => {
+					const post = postNew[tag];
 					createPage({
 						path: `/tags/${tag.toLowerCase().replace(/\s/ig, '-')}`,
 						component: tagTemplate,
 						context: {
 							tag,
-							posts
+							post,
+							posts: postNew
 						},
 					});
 				});

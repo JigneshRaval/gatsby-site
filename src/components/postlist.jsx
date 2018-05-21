@@ -21,6 +21,51 @@ export default class PostList extends React.Component {
         this.setState({ data: filterValue });
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('shouldComponentUpdate :', window.postsHome);
+
+        return true;
+    }
+    componentDidUpdate(nextProps, nextState) {
+        console.log('componentDidUpdate :', window.postsHome, nextProps, nextState)
+
+
+
+        //this.setState({ initialData: this.state.data });
+        // return data;
+
+    }
+    setNewData() {
+        let data = {
+            allMarkdownRemark: {
+                edges: [
+
+                ]
+            }
+        }
+
+        if (window.postsHome) {
+            window.postsHome.post.map((item) => {
+                data.allMarkdownRemark.edges.push({ node: item });
+            })
+
+
+        }
+        return data;
+        console.log('componentDidUpdate 2:', data);
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps :', window.postsHome, nextProps);
+
+        let finalData = this.setNewData();
+
+        if (this.props.status !== nextProps.status) {
+            this.setState({
+                data: finalData
+            });
+        }
+    }
+
     makePostActive(event) {
         var postListNodes = document.querySelectorAll('.postlist-post');
 

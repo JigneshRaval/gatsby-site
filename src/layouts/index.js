@@ -13,6 +13,7 @@ export default class Layout extends React.Component {
 
 	constructor(props) {
 
+		console.log('Index Layout :', props)
 		super(props);
 
 		// State
