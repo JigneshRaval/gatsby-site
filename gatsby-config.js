@@ -18,6 +18,18 @@ module.exports = {
 				name: 'images',
 			},
 		}, */
-		`gatsby-transformer-remark`,
+		{
+			resolve: `gatsby-transformer-remark`,
+			options: {
+				plugins: [
+					{
+						resolve: `gatsby-remark-autolink-headers`,
+						options: {
+							offsetY: `100`,
+						},
+					}
+				],
+			},
+		},
 	],
 }

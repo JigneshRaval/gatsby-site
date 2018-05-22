@@ -10,7 +10,7 @@ export const TagList = ({ tags }) => {
                     .map((tag, i) => {
                         // let tag = tag.toLowerCase();
                         return <li className="post-tags--item" key={i}>
-                            <Link to={`/tags/${tag.toLowerCase()}`}>{tag}</Link>
+                            <Link to={`/tags/${tag.toLowerCase().replace(/\s/ig, '-')}`}>{tag}</Link>
                         </li>
                     })
             }

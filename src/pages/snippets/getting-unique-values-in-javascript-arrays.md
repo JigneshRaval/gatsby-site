@@ -1,7 +1,7 @@
 ---
 path: "/blog/getting-unique-values-in-javascript-arrays"
 date: "2018-05-21"
-title: "Architecture in Angular projects"
+title: "Getting unique values in JavaScript arrays"
 tags: ["JavaScript", "Array"]
 category: "JavaScript"
 categoryColor: '#F3C610'

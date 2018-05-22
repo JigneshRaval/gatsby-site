@@ -4,13 +4,13 @@ import { SearchPost } from './Search-Post';
 import { SidebarHeader } from './Sidebar-Header';
 
 export default class PostList extends React.Component {
+
     constructor(props) {
         super(props);
-
+        this.myData;
         this.state = {
             data: props.data,
-            initialData: props.data,
-            isPostLinkActive: false
+            initialData: props.data
         }
 
         this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
@@ -21,20 +21,6 @@ export default class PostList extends React.Component {
         this.setState({ data: filterValue });
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('shouldComponentUpdate :', window.postsHome);
-
-        return true;
-    }
-    componentDidUpdate(nextProps, nextState) {
-        console.log('componentDidUpdate :', window.postsHome, nextProps, nextState)
-
-
-
-        //this.setState({ initialData: this.state.data });
-        // return data;
-
-    }
     setNewData() {
         let data = {
             allMarkdownRemark: {
@@ -44,26 +30,38 @@ export default class PostList extends React.Component {
             }
         }
 
-        if (window.postsHome) {
-            window.postsHome.post.map((item) => {
-                data.allMarkdownRemark.edges.push({ node: item });
-            })
+        window.postsHome.post.map((item) => {
+            data.allMarkdownRemark.edges.push({ node: item });
+        });
 
 
-        }
-        return data;
-        console.log('componentDidUpdate 2:', data);
-    }
-    componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps :', window.postsHome, nextProps);
+        //let finalData = this.setNewData();
 
-        let finalData = this.setNewData();
-
-        if (this.props.status !== nextProps.status) {
+        if (window.location.href === 'http://localhost:8000/tags') {
             this.setState({
-                data: finalData
+                data: this.state.initialData
+            });
+        } else if (window.location.href.lastIndexOf('/tags/') > 0) {
+            this.setState({
+                data: data
+            });
+        } else {
+            this.setState({
+                data: this.state.initialData
             });
         }
+
+        // return data;
+    }
+
+    componentWillReceiveProps(nextProps) {
+        setTimeout(() => {
+            if (window.postsHome) {
+                console.log('componentWillReceiveProps ===>:', window.postsHome, this.myData);
+
+                this.setNewData();
+            }
+        }, 500);
     }
 
     makePostActive(event) {
@@ -74,7 +72,6 @@ export default class PostList extends React.Component {
         })
 
         event.currentTarget.parentElement.classList.add('postlist-post__active');
-        this.setState({ isPostLinkActive: true })
     }
 
     render() {

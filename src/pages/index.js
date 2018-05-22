@@ -2,7 +2,6 @@ import React from 'react'
 import Link from 'gatsby-link'
 import IndexPost from "../components/IndexPost";
 
-
 const IndexPage = ({ data }) => (
 	<div>
 		<h1>Hi people 123</h1>
@@ -14,6 +13,7 @@ const IndexPage = ({ data }) => (
 
 		<h1>Index page</h1>
 		<a href="https://www.gatsbyjs.org/docs/querying-with-graphql/#fragments">Querying Data with GraphQL</a>
+
 		<h4>{data.allMarkdownRemark.totalCount} Posts</h4>
 		{data.allMarkdownRemark.edges.map(({ node }, index) => (
 			<div key={index}>
@@ -27,13 +27,13 @@ export default IndexPage
 
 export const query = graphql`
 	query MyQuery {
-	  allMarkdownRemark {
-		totalCount
-		edges {
-		  node {
-			...IndexPostFragment
-		  }
+		allMarkdownRemark {
+			totalCount
+			edges {
+				node {
+				...IndexPostFragment
+				}
+			}
 		}
-	  }
 	}
   `;

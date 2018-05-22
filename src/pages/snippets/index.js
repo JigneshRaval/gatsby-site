@@ -5,25 +5,25 @@ import IndexPost from "../../components/IndexPost";
 
 
 const IndexPage = (props) => {
-    console.log('Index Data ::', props);
-    setTimeout(() => {
-        props.history.push('/snippets/snippet1')
-    }, 500);
 
-    return null;
+	setTimeout(() => {
+		props.history.push('/snippets/snippet1')
+	}, 500);
+
+	return null;
 }
 
 export default IndexPage
 
 export const query = graphql`
 	query SnippetQuery {
-	  allMarkdownRemark {
-		totalCount
-		edges {
-		  node {
-			...IndexPostFragment
-		  }
+		allMarkdownRemark {
+			totalCount
+			edges {
+				node {
+					...IndexPostFragment
+				}
+			}
 		}
-	  }
 	}
   `;

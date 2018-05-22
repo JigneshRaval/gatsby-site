@@ -13,40 +13,20 @@ const TagsPage = ({
         },
     },
 }) => (
-        <div>
-            <Helmet title={title} />
-            <div>
-                <h1>Tags</h1>
-                <ul>
-                    {group.map(tag => (
-                        <li key={tag.fieldValue}>
-                            <Link to={`/tags/${tag.fieldValue.toLowerCase().replace(/\s/ig, '-')}`}>
-                                {tag.fieldValue} ({tag.totalCount})
-            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+        <div className="taglist--main">
+            <h1>Tags</h1>
+
+            <ul>
+                {group.map(tag => (
+                    <li key={tag.fieldValue}>
+                        <Link to={`/tags/${tag.fieldValue.toLowerCase().replace(/\s/ig, '-')}`}>
+                            {tag.fieldValue} ({tag.totalCount})
+                                </Link>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
-
-/* TagsPage.propTypes = {
-    data: PropTypes.shape({
-        allMarkdownRemark: PropTypes.shape({
-            group: PropTypes.arrayOf(
-                PropTypes.shape({
-                    fieldValue: PropTypes.string.isRequired,
-                    totalCount: PropTypes.number.isRequired,
-                }).isRequired
-            ),
-        }),
-        site: PropTypes.shape({
-            siteMetadata: PropTypes.shape({
-                title: PropTypes.string.isRequired,
-            }),
-        }),
-    }),
-}; */
 
 export default TagsPage;
 

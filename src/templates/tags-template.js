@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 // Components
 import Link from "gatsby-link";
-// import { DataPassing } from '../components/DataPassing';
+import { TopBar } from '../components/Top-Bar';
 
 const Tags = (props) => {
 
@@ -20,31 +20,34 @@ const Tags = (props) => {
 
     if (tag) {
         return (
-            <div>
-                {/* <DataPassing changeData={handleChangeData} /> */}
-                <h1>
-                    {post.length} post{post.length === 1 ? '' : 's'} tagged with {tag}
-                </h1>
-                <ul>
-                    {post.map(({ id, frontmatter, excerpt }) => {
-                        return (
-                            <li key={id}>
-                                <h1>
-                                    <Link to={frontmatter.path}>
-                                        {frontmatter.title}
-                                    </Link>
-                                </h1>
-                                <p>
-                                    {excerpt}
-                                </p>
-                            </li>
-                        );
-                    })}
-                </ul>
-                <Link to="/tags">
-                    All tags
+            <section>
+                <TopBar />
+                <div className="taglist--posts">
+                    {/* <DataPassing changeData={handleChangeData} /> */}
+                    <h1>
+                        {post.length} post{post.length === 1 ? '' : 's'} tagged with {tag}
+                    </h1>
+                    <ul>
+                        {post.map(({ id, frontmatter, excerpt }) => {
+                            return (
+                                <li key={id}>
+                                    <h1>
+                                        <Link to={frontmatter.path}>
+                                            {frontmatter.title}
+                                        </Link>
+                                    </h1>
+                                    <p>
+                                        {excerpt}
+                                    </p>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                    <Link to="/tags">
+                        All tags
                 </Link>
-            </div>
+                </div>
+            </section>
         );
     }
 
@@ -56,9 +59,9 @@ const Tags = (props) => {
                     const tags = posts[tagName];
                     return (
                         <li key={tagName}>
-                            <GatsbyLink to={`/tags/${tagName}`}>
+                            <Link to={`/tags/${tagName.toLowerCase()}`}>
                                 {tagName}
-                            </GatsbyLink>
+                            </Link>
                         </li>
                     );
                 })}
