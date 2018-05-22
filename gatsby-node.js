@@ -78,6 +78,7 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 									categoryColor
 									coverImage
 									sourceUrl
+									type
 								}
 							}
 						}
@@ -92,7 +93,6 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 				// Create pages for each markdown file.
 				const posts = result.data.allMarkdownRemark.edges;
 
-				// createTagPages(createPage, posts);
 
 				// BLOG POSTS :: Create post detail pages
 				// =================================
@@ -101,18 +101,18 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 
 					// console.log("PATH =========>", node);
 
-					let layout = 'index',
+					/* let layout = 'index',
 						template = blogPostTemplate;
 
 					if (path.indexOf('/snippets') !== -1) {
 						layout = 'snippets-layout';
 						template = snippetsTemplate;
-					}
+					} */
 
 					createPage({
 						path,
-						component: template,
-						layout: layout,
+						component: blogPostTemplate,
+						layout: 'index',
 						// If you have a layout component at src/layouts/blog-layout.js
 						// layout: `blog-layout`,
 						// In your blog post template's graphql query, you can use path
@@ -123,36 +123,15 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 							category: node.frontmatter.category,
 							categoryColor: node.frontmatter.categoryColor,
 							coverImage: node.frontmatter.coverImage,
-							sourceUrl: node.frontmatter.sourceUrl
+							sourceUrl: node.frontmatter.sourceUrl,
+							type: node.frontmatter.type
 						},
 					});
 
 				});
 
-				// Tag pages:
-				// REF. : https://www.gatsbyjs.org/docs/adding-tags-and-categories-to-blog-posts/
+				// TAGS :: Create Tags page
 				// =================================
-				/* let tags = [];
-				// Iterate through each post, putting all found tags into `tags`
-				_.each(posts, edge => {
-					if (_.get(edge, "node.frontmatter.tags")) {
-						tags = tags.concat(edge.node.frontmatter.tags);
-					}
-				});
-				// Eliminate duplicate tags
-				tags = _.uniq(tags);
-
-				// Make tag pages
-				tags.forEach(tag => {
-					createPage({
-						path: `/tags/${_.kebabCase(tag)}/`,
-						component: tagTemplate,
-						context: {
-							tag,
-						},
-					});
-				}); */
-
 				let tags = [],
 					postNew = {};
 
@@ -172,8 +151,6 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 
 				let uniqueTags = [...new Set(tags)];
 
-
-
 				uniqueTags.forEach(tag => {
 					const post = postNew[tag];
 					createPage({
@@ -187,106 +164,7 @@ exports.createPages = ({ page, boundActionCreators, graphql }) => {
 					});
 				});
 
-				console.log('postNew ====>', postNew);
-
-				/* //
-				edges.forEach(({ node }) => {
-					if (node.frontmatter.tags) {
-						node.frontmatter.tags.forEach(tag => {
-							if (!posts[tag]) {
-								posts[tag] = [];
-							}
-							posts[tag].push(node);
-						});
-					}
-				});
-
-				Object.keys(posts).forEach(tagName => {
-					const post = posts[tagName];
-					createPage({
-						path: `/tags/${tagName.toLowerCase()}`,
-						component: tagTemplate,
-						context: {
-							posts: postsFiltered,
-							post,
-							tag: tagName
-						}
-					})
-				}); */
-
-				/* createPage({
-					path: '/tags',
-					component: tagTemplate,
-					context: {
-						posts: postsFiltered
-					}
-				}); */
-
-				/* // Make tag pages
-				tags.forEach(tag => {
-					createPage({
-						path: `/tags/${tag.toLowerCase()}/`,
-						component: tagTemplate,
-						context: {
-							posts,
-							tag
-						},
-					});
-				});
-
-				Object.keys(posts).forEach(tagName => {
-					const post = posts[tagName];
-					createPage({
-						path: `/tags/${tagName.toLowerCase()}`,
-						component: tagTemplate,
-						context: {
-							posts: postsFiltered,
-							post,
-							tag: tagName
-						}
-					})
-				}); */
-
-
 			})
 		);
-	});
-};
-
-
-const createTagPages = (createPage, edges) => {
-	// const tagTemplate = path.resolve(`src/templates/tags.js`);
-	const posts = {};
-
-	edges.forEach(({ node }) => {
-		if (node.frontmatter.tags) {
-			node.frontmatter.tags.forEach(tag => {
-				if (!posts[tag]) {
-					posts[tag] = [];
-				}
-				posts[tag].push(node);
-			});
-		}
-	});
-
-	createPage({
-		path: '/tags',
-		component: tagTemplate,
-		context: {
-			posts
-		}
-	});
-
-	Object.keys(posts).forEach(tagName => {
-		const post = posts[tagName];
-		createPage({
-			path: `/tags/${tagName.toLowerCase()}`,
-			component: tagTemplate,
-			context: {
-				posts,
-				post,
-				tag: tagName
-			}
-		})
 	});
 };

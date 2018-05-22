@@ -12,9 +12,27 @@ export default ({ frontmatter: { title, date } }) => (
 
 export const query = graphql`
     fragment IndexPostFragment on MarkdownRemark {
+        html
+        frontmatter {
+            excerpt
+            date(formatString: "MMMM DD, YYYY")
+            path
+            title
+            tags
+            category
+            categoryColor
+            coverImage
+            sourceUrl
+        }
+    }
+`;
+
+/* export const query = graphql`
+    fragment IndexPostFragment on MarkdownRemark {
         frontmatter {
             title
             date(formatString: "MMMM DD, YYYY")
         }
     }
 `;
+ */

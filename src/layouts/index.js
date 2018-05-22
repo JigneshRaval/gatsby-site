@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 
 import Header from '../components/header'
 import PostList from '../components/postlist'
+import Template from '../templates/blog-post-template'
 
 import './index.css'
 import './main.css'
@@ -23,9 +24,31 @@ export default class Layout extends React.Component {
 
 		// Methods
 		this.filterSnippetsList = this.filterSnippetsList.bind(this);
+		this.getSinglePost = this.getSinglePost.bind(this);
 		// hljs.initHighlightingOnLoad();
 	}
 
+	getSinglePost() {
+		const path = this.props.location.pathname;
+
+		let data = {
+			markdownRemark: {
+
+			}
+		}
+
+		this.props.data.allMarkdownRemark.edges.filter(({ node }) => {
+			let postPath = node.id.split('/').pop();
+			postPath = '/blog/' + postPath.split('.').shift();
+			console.log('postPath :', postPath, { node });
+
+			if (path === postPath) {
+				// data.markdownRemark.push({ node: node });
+			}
+		});
+
+
+	}
 	// Filter from blog post list
 	filterSnippetsList() {
 
@@ -46,12 +69,13 @@ export default class Layout extends React.Component {
 
 	componentWillMount() {
 
-		let dataNew = this.filterSnippetsList();
+		/* let dataNew = this.filterSnippetsList();
 
 		this.setState({
 			data: dataNew
-		});
+		}); */
 
+		this.getSinglePost();
 	}
 
 	render() {
@@ -65,6 +89,8 @@ export default class Layout extends React.Component {
 				</div>
 
 				<div className="container-main">
+					{/*  <Template data={this.props.data} /> */}
+
 					{this.props.children()}
 				</div>
 			</div>
@@ -87,12 +113,7 @@ Layout.propTypes = {
 
 export const query = graphql`
 	query SiteTitleQuery {
-		site {
-			siteMetadata {
-				title
-			}
-		}
-		allMarkdownRemark(
+		allMarkdownRemark : allMarkdownRemark(
 			sort: { order: DESC, fields: [frontmatter___date] }
 		) {
 			totalCount
@@ -107,9 +128,25 @@ export const query = graphql`
 						title
 						category
 						categoryColor
+						type
 					}
 				}
 			}
-		}
+		},
+		markdownRemark: markdownRemark {
+            html
+            frontmatter {
+                excerpt
+                date(formatString: "MMMM DD, YYYY")
+                path
+                title
+                tags
+                category
+                categoryColor
+                coverImage
+				sourceUrl
+				type
+            }
+        }
 	}
 `

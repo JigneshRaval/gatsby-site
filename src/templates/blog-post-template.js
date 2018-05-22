@@ -6,6 +6,9 @@ import { TopBar } from '../components/Top-Bar';
 export default function Template({
     data, // this prop will be injected by the GraphQL query below.
 }) {
+
+    console.log('Blog Post TEmplate ::: ', data);
+
     const { markdownRemark } = data; // data.markdownRemark holds our post data
     const { frontmatter, html } = markdownRemark;
 

@@ -53,18 +53,10 @@ export default class SnippetsLayout extends React.Component {
     render() {
         return (
 
-            <div className="container">
-                <div className="container-side">
-                    {/* <div className="header">
-					test
-                  </div> */}
-                    <PostList data={this.state.data} />
-                </div>
+            <main>
+            {this.props.children()}
+                </main>
 
-                <div className="container-main">
-                    {this.props.children()}
-                </div>
-            </div>
         );
     }
 }

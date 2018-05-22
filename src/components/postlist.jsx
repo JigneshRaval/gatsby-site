@@ -6,6 +6,7 @@ import { SidebarHeader } from './Sidebar-Header';
 export default class PostList extends React.Component {
 
     constructor(props) {
+        console.log('PostList ::', props);
         super(props);
         this.myData;
         this.state = {
@@ -19,49 +20,6 @@ export default class PostList extends React.Component {
 
     handleFilterUpdate = (filterValue) => {
         this.setState({ data: filterValue });
-    }
-
-    setNewData() {
-        let data = {
-            allMarkdownRemark: {
-                edges: [
-
-                ]
-            }
-        }
-
-        window.postsHome.post.map((item) => {
-            data.allMarkdownRemark.edges.push({ node: item });
-        });
-
-
-        //let finalData = this.setNewData();
-
-        if (window.location.href === 'http://localhost:8000/tags') {
-            this.setState({
-                data: this.state.initialData
-            });
-        } else if (window.location.href.lastIndexOf('/tags/') > 0) {
-            this.setState({
-                data: data
-            });
-        } else {
-            this.setState({
-                data: this.state.initialData
-            });
-        }
-
-        // return data;
-    }
-
-    componentWillReceiveProps(nextProps) {
-        setTimeout(() => {
-            if (window.postsHome) {
-                console.log('componentWillReceiveProps ===>:', window.postsHome, this.myData);
-
-                this.setNewData();
-            }
-        }, 500);
     }
 
     makePostActive(event) {
@@ -80,15 +38,6 @@ export default class PostList extends React.Component {
 
 
                 <SidebarHeader data={this.state.data} initialData={this.state.initialData} updateFilter={this.handleFilterUpdate} />
-
-                {/*  <header className="postlist-header">
-                    <h2 className="postlist-header--title">Articles <span className="postlist-header--count">{this.state.data.allMarkdownRemark.edges.length}</span></h2>
-
-                    <SearchPost data={this.state.data} initialData={this.state.initialData} updateFilter={this.handleFilterUpdate} />
-
-                    <a href="/" className="postlist-back"><span><i className="icon icon-home"></i> Back to Latest Articles</span></a>
-                </header> */}
-
 
                 <div className="postlist-container">
 
