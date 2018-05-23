@@ -1,4 +1,4 @@
-// src/components/IndexPost.jsx
+// src/components/IndexPost.jsx ( Not in Use )
 
 import React from "react";
 
